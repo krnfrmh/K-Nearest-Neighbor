@@ -28,4 +28,19 @@ class KNN(object):
                     if d < sl[-1][0]:
                         del sl[-1]
                         sl.add( (d, self.y[j]) )
+            
+            # vote
+            votes = {}
+            for _, v in sl:
+                # print "v:", v
+                votes[v] = votes.get(v,0) + 1
+            # print "votes:", votes, "true:", Ytest[i]
+            max_votes = 0
+            max_votes_class = -1
+            for v,count in iteritems(votes):
+                if count > max_votes:
+                    max_votes = count
+                    max_votes_class = v
+            y[i] = max_votes_class
+        return y
         
