@@ -44,3 +44,6 @@ class KNN(object):
             y[i] = max_votes_class
         return y
         
+    def score(self, X, Y):
+        P = self.predict(X)
+        return np.mean(P == Y)
