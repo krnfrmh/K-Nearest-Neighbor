@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from future.utils import iteritems
 from sortedcontainers import SortedList
-
+from generate_data import get_data
 
 class KNN(object):
     def __init__(self, k):
@@ -47,3 +47,16 @@ class KNN(object):
     def score(self, X, Y):
         P = self.predict(X)
         return np.mean(P == Y)
+
+
+if __name__ == '__main__':
+    X, Y = get_data()
+
+    # display the data
+    plt.scatter(X[:,0], X[:,1], s=100, c=Y, alpha=0.5)
+    plt.show()
+
+    # get the accuracy
+    model = KNN(3)
+    model.fit(X, Y)
+    print("Accuracy:", model.score(X, Y))
