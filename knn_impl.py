@@ -43,6 +43,23 @@ class KNN(object):
                     max_votes_class = v
             y[i] = max_votes_class
         return y
+    
+    def predict_vectorize(self, X):
+        N = len(X)
+        y = np.zeros(N)
+
+        # returns distances in a matrix of shape (N_test, N_train)
+        distances = pairwise_distances(X, self.X)
+        
+        # get the minimum k elements' indexes
+        idx = distances.argsort(axis=1)[:, :self.k]
+
+        # determine the winning votes each row of idx contains indexes from 0..Ntrain corresponding to the indexes of the closest samples from the training set
+        votes = self.y[idx]
+        for i in range(N):
+            y[i] = np.bincount(votes[i]).argmax()
+
+        return y
         
     def score(self, X, Y):
         P = self.predict(X)
